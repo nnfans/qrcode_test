@@ -1,0 +1,80 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:svelte/prettier",
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "sourceType": "module",
+    "ecmaVersion": 2020,
+    "extraFileExtensions": [".svelte"]
+  },
+  "plugins": ["import", "@typescript-eslint"],
+  "settings": {
+    "import/resolver": {
+      "custom-alias": {
+        "alias": {
+          "$lib": "src/lib",
+          "$app": "node_modules/@sveltejs/kit/src/runtime/app",
+          "@sveltejs/kit": "node_modules/@sveltejs/kit/src/exports/index.js"
+        },
+        "extensions": [".js"]
+      },
+      "node": {},
+      "typescript": {
+        "project": ["tsconfig.json", ".svelte-kit/tsconfig.json"]
+      }
+    }
+  },
+  "rules": {
+    "consistent-return": "off",
+    "import/prefer-default-export": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": ["$lib/params/**"],
+            "message": "Please use the root import. ex: $lib/params"
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "parser": "svelte-eslint-parser",
+      // Parse the `<script>` in `.svelte` as TypeScript by adding the following configuration.
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      },
+      "rules": {
+        "import/extensions": "off",
+        "import/no-mutable-exports": "off",
+        "no-inner-declarations": "off"
+      }
+    },
+    {
+      "files": ["./*.js"],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
+    },
+    {
+      "files": ["./*.js"],
+      "extends": ["plugin:@typescript-eslint/disable-type-checked"]
+    }
+  ],
+  "env": {
+    "browser": true,
+    "es2017": true,
+    "node": true
+  }
+}
